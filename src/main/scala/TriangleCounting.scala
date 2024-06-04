@@ -9,6 +9,7 @@ object TriangleCounting {
 
     val sc = spark.sparkContext
 
+    val startTime = System.currentTimeMillis()
     // 读取输入数据
     val graph = GraphLoader
       .edgeListFile(sc, "hdfs://localhost:9000/input/TriangleCounting/Cit-HepPh.txt",true)
@@ -24,9 +25,11 @@ object TriangleCounting {
     // 计算总的三角形数量
     val totalTriangleCount = triangleCount.values.sum
 
+    val endTime = System.currentTimeMillis()
+    val duration = endTime - startTime
     // 输出总的三角形数量
     println(s"data:Total triangles count: $totalTriangleCount")
-
+    println(s"data:Time taken: $duration ms")
     // 停止 SparkSession
     spark.stop()
   }
